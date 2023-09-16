@@ -1,4 +1,5 @@
-﻿using JsonSerial.Core;
+﻿using System.Text.Json.Serialization;
+using JsonSerial.Core;
 
 namespace JsonSerial.Test;
 
@@ -9,5 +10,6 @@ public class Person
     public int Age { get; set; }
     
     [Ignore]
+    [JsonIgnore]
     public string FullName => $"{LastName} {FirstName}";
 }
