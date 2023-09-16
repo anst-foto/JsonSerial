@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Reflection;
+using System.Text;
 
 namespace JsonSerial.Core;
 
@@ -12,12 +13,18 @@ public static class JsonSerializer
         stringBuilder.Append("{");
         foreach (var property in type.GetProperties())
         {
+            if (property.GetCustomAttribute(typeof(IgnoreAttribute)) is IgnoreAttribute { Ignore: true })
+            {
+                continue;
+            }
+
             stringBuilder.Append("\"");
             stringBuilder.Append(property.Name);
             stringBuilder.Append("\": \"");
             stringBuilder.Append(property.GetValue(obj));
             stringBuilder.Append("\", ");
         }
+
         stringBuilder.Append("}");
 
         return stringBuilder.ToString();
